@@ -51,7 +51,6 @@ export function Hero() {
         {/* Left – Urban */}
         <div
           style={{
-            flex: 1,
             position: "relative",
             transition: "flex 1.2s cubic-bezier(0.77, 0, 0.175, 1)",
             flex: active === 0 ? 1.6 : 0.4,
