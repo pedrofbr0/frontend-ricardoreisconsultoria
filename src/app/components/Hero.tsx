@@ -77,33 +77,7 @@ export function Hero() {
                 "linear-gradient(to right, rgba(15,28,46,0.65) 0%, rgba(15,28,46,0.15) 100%)",
             }}
           />
-          {/* Urban label */}
-          <div
-            style={{
-              position: "absolute",
-              bottom: 40,
-              left: 36,
-              opacity: active === 0 ? 1 : 0,
-              transition: "opacity 0.6s",
-            }}
-          >
-            <span
-              style={{
-                fontFamily: "'Inter', sans-serif",
-                fontSize: 11,
-                fontWeight: 600,
-                letterSpacing: "0.22em",
-                textTransform: "uppercase",
-                color: "#B8935A",
-                background: "rgba(15,28,46,0.7)",
-                padding: "5px 12px",
-                borderRadius: 3,
-              }}
-            >
-              Alto Padrão Urbano
-            </span>
           </div>
-        </div>
 
         {/* Divider line */}
         <div
@@ -143,32 +117,6 @@ export function Hero() {
                 "linear-gradient(to left, rgba(15,28,46,0.65) 0%, rgba(15,28,46,0.15) 100%)",
             }}
           />
-          {/* Farm label */}
-          <div
-            style={{
-              position: "absolute",
-              bottom: 40,
-              right: 36,
-              opacity: active === 1 ? 1 : 0,
-              transition: "opacity 0.6s",
-            }}
-          >
-            <span
-              style={{
-                fontFamily: "'Inter', sans-serif",
-                fontSize: 11,
-                fontWeight: 600,
-                letterSpacing: "0.22em",
-                textTransform: "uppercase",
-                color: "#B8935A",
-                background: "rgba(15,28,46,0.7)",
-                padding: "5px 12px",
-                borderRadius: 3,
-              }}
-            >
-              Fazendas &amp; Sítios
-            </span>
-          </div>
         </div>
       </div>
 
@@ -207,7 +155,8 @@ export function Hero() {
               fontWeight: 600,
               letterSpacing: "0.28em",
               textTransform: "uppercase",
-              color: "#B8935A",
+              color: "#FFFFFF",
+              textShadow: "0 1px 8px rgba(0,0,0,0.8)"
             }}
           >
             Curadoria Exclusiva de Imóveis
@@ -227,7 +176,7 @@ export function Hero() {
             lineHeight: 1.2,
             maxWidth: 820,
             marginBottom: 20,
-            textShadow: "0 2px 24px rgba(0,0,0,0.4)",
+            textShadow: "0 2px 24px rgba(0,0,0,0.8)",
             pointerEvents: "auto",
           }}
         >
@@ -248,6 +197,7 @@ export function Hero() {
             lineHeight: 1.7,
             marginBottom: 40,
             pointerEvents: "auto",
+            textShadow: "0 1px 8px rgba(0,0,0,0.8)"
           }}
         >
           Imóveis urbanos de alto padrão e propriedades rurais selecionados
@@ -296,6 +246,67 @@ export function Hero() {
         </a>
       </div>
 
+      {/* Centered panel labels */}
+      <div
+        style={{
+          position: "absolute",
+          bottom: 76,
+          left: "50%",
+          transform: "translateX(-50%)",
+          zIndex: 20,
+          pointerEvents: "none",
+        }}
+      >
+        <div
+          style={{
+            position: "relative",
+            height: 28,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <span
+            style={{
+              position: "absolute",
+              fontFamily: "'Inter', sans-serif",
+              fontSize: 11,
+              fontWeight: 600,
+              letterSpacing: "0.22em",
+              textTransform: "uppercase",
+              color: "#B8935A",
+              background: "rgba(15,28,46,0.75)",
+              padding: "5px 14px",
+              borderRadius: 3,
+              whiteSpace: "nowrap",
+              opacity: active === 0 ? 1 : 0,
+              transition: "opacity 0.6s",
+            }}
+          >
+            Alto Padrão Urbano
+          </span>
+          <span
+            style={{
+              position: "absolute",
+              fontFamily: "'Inter', sans-serif",
+              fontSize: 11,
+              fontWeight: 600,
+              letterSpacing: "0.22em",
+              textTransform: "uppercase",
+              color: "#B8935A",
+              background: "rgba(15,28,46,0.75)",
+              padding: "5px 14px",
+              borderRadius: 3,
+              whiteSpace: "nowrap",
+              opacity: active === 1 ? 1 : 0,
+              transition: "opacity 0.6s",
+            }}
+          >
+            Fazendas &amp; Sítios
+          </span>
+        </div>
+      </div>
+
       {/* Slide toggles */}
       <div
         style={{
@@ -326,22 +337,12 @@ export function Hero() {
         ))}
       </div>
 
-      <style>{`
-        @media (max-width: 480px) {
-          .hero-cta {
-            width: 100%;
-            padding: 15px 20px !important;
-            font-size: 14px !important;
-          }
-        }
-      `}</style>
-
-      {/* Scroll hint */}
+      {/* Scroll hint – left side to avoid FAB on the right */}
       <div
         style={{
           position: "absolute",
           bottom: 32,
-          right: 36,
+          left: 36,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -368,6 +369,17 @@ export function Hero() {
           }}
         />
       </div>
+
+      <style>{`
+        @media (max-width: 480px) {
+          .hero-cta {
+            width: 100%;
+            padding: 15px 20px !important;
+            font-size: 14px !important;
+          }
+        }
+      `}</style>
+
     </section>
   );
 }

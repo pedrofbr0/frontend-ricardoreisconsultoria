@@ -15,6 +15,7 @@ export function Header() {
   }, []);
 
   const navLinks = [
+    { label: "Início", href: "#" },
     { label: "Portfólio", href: "#portfolio" },
     { label: "Sobre", href: "#sobre" },
     { label: "Contato", href: "#footer" },
