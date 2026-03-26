@@ -123,15 +123,13 @@ export function Header() {
 
         {/* Mobile Hamburger */}
         <button
-          className="md:hidden"
+          className="flex items-center md:hidden"
           onClick={() => setMenuOpen(!menuOpen)}
           style={{
             background: "none",
             border: "none",
             cursor: "pointer",
             color: "#fff",
-            display: "flex",
-            alignItems: "center",
             padding: 4,
           }}
         >
