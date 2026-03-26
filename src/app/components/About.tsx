@@ -275,6 +275,7 @@ export function About() {
 
             {/* Credentials */}
             <div
+              className="grid-credentials"
               style={{
                 display: "grid",
                 gridTemplateColumns: "1fr 1fr",
@@ -371,6 +372,9 @@ export function About() {
           .grid-cols-about {
             grid-template-columns: 1fr !important;
             gap: 48px !important;
+          }
+          .grid-credentials {
+            grid-template-columns: 1fr !important;
           }
         }
       `}</style>

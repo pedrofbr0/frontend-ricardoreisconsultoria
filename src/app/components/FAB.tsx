@@ -32,6 +32,7 @@ export function FAB() {
       {showTooltip && (
         <div
           style={{
+            position: "relative",
             background: "#162940",
             color: "#fff",
             fontFamily: "'Inter', sans-serif",

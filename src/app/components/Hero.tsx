@@ -259,9 +259,11 @@ export function Hero() {
           href={WA_LINK}
           target="_blank"
           rel="noopener noreferrer"
+          className="hero-cta"
           style={{
             display: "inline-flex",
             alignItems: "center",
+            justifyContent: "center",
             gap: 10,
             background: "#25D366",
             color: "#fff",
@@ -275,6 +277,8 @@ export function Hero() {
             boxShadow: "0 8px 32px rgba(37,211,102,0.35)",
             letterSpacing: "0.02em",
             pointerEvents: "auto",
+            maxWidth: "100%",
+            boxSizing: "border-box",
           }}
           onMouseEnter={(e) => {
             (e.currentTarget as HTMLElement).style.background = "#1DB954";
@@ -321,6 +325,16 @@ export function Hero() {
           />
         ))}
       </div>
+
+      <style>{`
+        @media (max-width: 480px) {
+          .hero-cta {
+            width: 100%;
+            padding: 15px 20px !important;
+            font-size: 14px !important;
+          }
+        }
+      `}</style>
 
       {/* Scroll hint */}
       <div
