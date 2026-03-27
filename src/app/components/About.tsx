@@ -332,7 +332,7 @@ export function About() {
             </div>
 
             <a
-              href="https://wa.me/5534999999999?text=Ol%C3%A1%20Ricardo%2C%20gostaria%20de%20falar%20diretamente%20com%20voc%C3%AA%20sobre%20im%C3%B3veis."
+              href="https://wa.me/5534996731968?text=Ol%C3%A1%20Ricardo%2C%20gostaria%20de%20falar%20diretamente%20com%20voc%C3%AA%20sobre%20im%C3%B3veis."
               target="_blank"
               rel="noopener noreferrer"
               style={{
