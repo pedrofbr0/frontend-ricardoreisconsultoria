@@ -158,13 +158,10 @@ export function Header() {
           className="hidden md:flex"
         >
           {navLinks.map((link) => {
-            // Destaca o link ativo
-            const isActive =
-              link.target === "/imoveis"
-                ? location.pathname.startsWith("/imoveis")
-                : link.target === "/" && isHome
-                  ? true
-                  : false;
+            // Só destaca links de rota real, não links de scroll dentro da home
+            const isActive = link.target === "/imoveis"
+              ? location.pathname.startsWith("/imoveis")
+              : false;
 
             return (
               <a

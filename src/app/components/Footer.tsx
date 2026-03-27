@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Mail, Instagram, Linkedin, Facebook } from "lucide-react";
 
 const WhatsAppIcon = ({ size = 16 }: { size?: number }) => (
@@ -32,6 +32,38 @@ const socials = [
 ];
 
 export function Footer() {
+  const location = useLocation()
+  const navigate = useNavigate()
+  const isHome = location.pathname === "/"
+
+  function handleNavClick(e: React.MouseEvent, target: string) {
+    e.preventDefault()
+
+    if (target.startsWith("/#")) {
+      const sectionId = target.slice(2)
+      if (isHome) {
+        document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" })
+      } else {
+        navigate(target)
+        setTimeout(() => {
+          document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" })
+        }, 100)
+      }
+      return
+    }
+
+    if (target === "/") {
+      if (isHome) {
+        window.scrollTo({ top: 0, behavior: "smooth" })
+      } else {
+        navigate("/")
+      }
+      return
+    }
+
+    navigate(target)
+  }
+
   return (
     <footer
       id="footer"
@@ -156,37 +188,35 @@ export function Footer() {
               Navegação
             </h4>
             {[
-              { label: "Início", href: "/", isRoute: true },
-              { label: "Portfólio", href: "/#portfolio", isRoute: false },
-              { label: "Imóveis", href: "/imoveis", isRoute: true },
-              { label: "Sobre", href: "/#sobre", isRoute: false },
-              { label: "Contato", href: "/#footer", isRoute: false },
-            ].map(({ label, href, isRoute }) => {
-              const linkStyle = {
-                display: "block",
-                fontFamily: "'Inter', sans-serif",
-                fontSize: 13,
-                color: "rgba(255,255,255,0.55)",
-                textDecoration: "none",
-                marginBottom: 10,
-                transition: "color 0.2s",
-              };
-              const handlers = {
-                onMouseEnter: (e: React.MouseEvent<HTMLElement>) =>
-                  ((e.currentTarget as HTMLElement).style.color = "#fff"),
-                onMouseLeave: (e: React.MouseEvent<HTMLElement>) =>
-                  ((e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.55)"),
-              };
-              return isRoute ? (
-                <Link key={label} to={href} style={linkStyle} {...handlers}>
-                  {label}
-                </Link>
-              ) : (
-                <a key={label} href={href} style={linkStyle} {...handlers}>
-                  {label}
-                </a>
-              );
-            })}
+              { label: "Início", href: "/" },
+              { label: "Portfólio", href: "/#portfolio" },
+              { label: "Imóveis", href: "/imoveis" },
+              { label: "Sobre", href: "/#sobre" },
+              { label: "Contato", href: "/#footer" },
+            ].map(({ label, href }) => (
+              <a
+                key={label}
+                href={href}
+                onClick={(e) => handleNavClick(e, href)}
+                style={{
+                  display: "block",
+                  fontFamily: "'Inter', sans-serif",
+                  fontSize: 13,
+                  color: "rgba(255,255,255,0.55)",
+                  textDecoration: "none",
+                  marginBottom: 10,
+                  transition: "color 0.2s",
+                }}
+                onMouseEnter={(e) =>
+                  ((e.currentTarget as HTMLElement).style.color = "#fff")
+                }
+                onMouseLeave={(e) =>
+                  ((e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.55)")
+                }
+              >
+                {label}
+              </a>
+            ))}
           </div>
 
           {/* Contact */}
@@ -207,7 +237,7 @@ export function Footer() {
 
             {/* WhatsApp */}
             <a
-              href="https://wa.me/553496731968"
+              href="https://wa.me/5534996731968"
               target="_blank"
               rel="noopener noreferrer"
               style={{
