@@ -7,23 +7,44 @@ import { CTAStrip } from "./components/CTAStrip";
 import { Footer } from "./components/Footer";
 import { FAB } from "./components/FAB";
 
-export default function App() {
+import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom'
+import { PropertiesPage } from './pages/PropertiesPage'
+import { PropertyDetailPage } from './pages/PropertyDetailPage'
+
+export function HomePage() {
   return (
-    <div
-      style={{
-        fontFamily: "'Inter', sans-serif",
-        background: "#F8F5F0",
-        overflowX: "hidden",
-      }}
-    >
-      <Header />
+    <div>
       <Hero />
       <Portfolio />
-      <SocialProof />
       <About />
+      <SocialProof />
       <CTAStrip />
+    </div>
+  )
+}
+
+export function Layout() {
+  return (
+    <div>
+      <Header />
+      <Outlet />
       <Footer />
       <FAB />
     </div>
-  );
+  )
+}
+
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<HomePage />} />
+          <Route path="/imoveis" element={<PropertiesPage />} />
+          <Route path="/imoveis/:slug" element={<PropertyDetailPage />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  )
 }
