@@ -15,6 +15,7 @@ import {
   Layers,
   X,
   Share,
+  Check,
 } from 'lucide-react'
 import { usePropertyDetail, useSiteSettings } from '../lib/hooks'
 import { urlFor } from '../lib/sanity'
@@ -81,6 +82,7 @@ export function PropertyDetailPage() {
   const { property, loading } = usePropertyDetail(slug || '')
   const settings = useSiteSettings()
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
+  const [shared, setShared] = useState(false)
 
   const waNumber = settings?.whatsappNumber || '5534996731968'
 
@@ -151,6 +153,22 @@ export function PropertyDetailPage() {
   if (property.neighborhood) locationParts.push(property.neighborhood)
   locationParts.push(`${property.city} - ${property.state}`)
   const locationText = locationParts.join(', ')
+
+
+  async function handleShare() {
+    const url = window.location.href
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: property.title, url })
+      } catch {
+        // user cancelled — do nothing
+      }
+    } else {
+      await navigator.clipboard.writeText(url)
+      setShared(true)
+      setTimeout(() => setShared(false), 2500)
+    }
+  }
 
   return (
     <div className="min-h-screen bg-[#F8F5F0] pt-[72px]">
@@ -410,6 +428,23 @@ export function PropertyDetailPage() {
                     Ligar agora
                   </a>
                 )}
+
+                <button
+                  onClick={handleShare}
+                  className="mt-3 flex items-center justify-center gap-2 w-full border border-[#EDE8E0] bg-white text-[#162940] font-['Inter'] text-sm font-semibold py-3.5 rounded-lg transition-all hover:border-[#B8935A] hover:text-[#B8935A] cursor-pointer"
+                >
+                  {shared ? (
+                    <>
+                      <Check size={16} className="text-[#B8935A]" />
+                      Link copiado!
+                    </>
+                  ) : (
+                    <>
+                      <Share size={16} />
+                      Compartilhar imóvel
+                    </>
+                  )}
+                </button>
               </div>
 
               {/* Broker card */}

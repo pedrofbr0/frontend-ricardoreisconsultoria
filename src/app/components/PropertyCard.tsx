@@ -1,6 +1,7 @@
 // components/PropertyCard.tsx
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Bed, Car, Trees, MapPin, Maximize2, ShowerHead, Image } from 'lucide-react'
+import { Bed, Car, Trees, MapPin, Maximize2, ShowerHead, Image, Share2, Check } from 'lucide-react'
 import { urlFor } from '../lib/sanity'
 import { getDisplayPrice, buildWhatsAppLink } from '../lib/format'
 import type { PropertyCard as PropertyCardType } from '../types/property'
@@ -27,6 +28,7 @@ interface Props {
 }
 
 export function PropertyCard({ property, whatsappNumber = '5534996731968' }: Props) {
+  const [shared, setShared] = useState(false)
   const price = getDisplayPrice(property)
   const tagBg = property.categoryColor || '#162940'
 
@@ -38,6 +40,19 @@ export function PropertyCard({ property, whatsappNumber = '5534996731968' }: Pro
   const imageUrl = property.mainImage
     ? urlFor(property.mainImage).width(800).height(500).quality(80).url()
     : '/placeholder.jpg'
+
+  async function handleShare(e: React.MouseEvent) {
+    e.preventDefault()
+    e.stopPropagation()
+    const url = `${window.location.origin}/imoveis/${property.slug.current}`
+    if (navigator.share) {
+      await navigator.share({ title: property.title, url })
+    } else {
+      await navigator.clipboard.writeText(url)
+      setShared(true)
+      setTimeout(() => setShared(false), 2000)
+    }
+  }
 
   return (
     <div className="group bg-white rounded-xl overflow-hidden shadow-[0_4px_24px_rgba(22,41,64,0.10)] flex flex-col transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_16px_48px_rgba(22,41,64,0.18)]">
@@ -71,6 +86,15 @@ export function PropertyCard({ property, whatsappNumber = '5534996731968' }: Pro
             +{property.galleryCount}
           </span>
         )}
+
+        {/* Share button */}
+        <button
+          onClick={handleShare}
+          title={shared ? 'Link copiado!' : 'Compartilhar imóvel'}
+          className="absolute top-3.5 right-3.5 flex items-center justify-center w-7 h-7 rounded-full bg-black/50 hover:bg-black/75 text-white transition-colors"
+        >
+          {shared ? <Check size={13} /> : <Share2 size={13} />}
+        </button>
       </Link>
 
       {/* Content — click goes to detail page */}
