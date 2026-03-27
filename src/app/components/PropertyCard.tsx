@@ -45,8 +45,13 @@ export function PropertyCard({ property, whatsappNumber = '5534996731968' }: Pro
     e.preventDefault()
     e.stopPropagation()
     const url = `${window.location.origin}/imoveis/${property.slug.current}`
-    if (navigator.share) {
-      await navigator.share({ title: property.title, url })
+    const isTouchDevice = navigator.maxTouchPoints > 0
+    if (isTouchDevice && navigator.share) {
+      try {
+        await navigator.share({ title: property.title, url })
+      } catch {
+        // user cancelled — do nothing
+      }
     } else {
       await navigator.clipboard.writeText(url)
       setShared(true)
