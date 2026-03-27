@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Mail, Instagram, Linkedin, Facebook } from "lucide-react";
 
 const WhatsAppIcon = ({ size = 16 }: { size?: number }) => (
@@ -154,32 +155,38 @@ export function Footer() {
             >
               Navegação
             </h4>
-            {["Portfólio", "Sobre", "Contato", "CRECI-MG 24.283"].map(
-              (item) => (
-                <a
-                  key={item}
-                  href={`#${item.toLowerCase().replace(" ", "")}`}
-                  style={{
-                    display: "block",
-                    fontFamily: "'Inter', sans-serif",
-                    fontSize: 13,
-                    color: "rgba(255,255,255,0.55)",
-                    textDecoration: "none",
-                    marginBottom: 10,
-                    transition: "color 0.2s",
-                  }}
-                  onMouseEnter={(e) =>
-                    ((e.target as HTMLElement).style.color = "#fff")
-                  }
-                  onMouseLeave={(e) =>
-                    ((e.target as HTMLElement).style.color =
-                      "rgba(255,255,255,0.55)")
-                  }
-                >
-                  {item}
+            {[
+              { label: "Início", href: "/", isRoute: true },
+              { label: "Portfólio", href: "/#portfolio", isRoute: false },
+              { label: "Imóveis", href: "/imoveis", isRoute: true },
+              { label: "Sobre", href: "/#sobre", isRoute: false },
+              { label: "Contato", href: "/#footer", isRoute: false },
+            ].map(({ label, href, isRoute }) => {
+              const linkStyle = {
+                display: "block",
+                fontFamily: "'Inter', sans-serif",
+                fontSize: 13,
+                color: "rgba(255,255,255,0.55)",
+                textDecoration: "none",
+                marginBottom: 10,
+                transition: "color 0.2s",
+              };
+              const handlers = {
+                onMouseEnter: (e: React.MouseEvent<HTMLElement>) =>
+                  ((e.currentTarget as HTMLElement).style.color = "#fff"),
+                onMouseLeave: (e: React.MouseEvent<HTMLElement>) =>
+                  ((e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.55)"),
+              };
+              return isRoute ? (
+                <Link key={label} to={href} style={linkStyle} {...handlers}>
+                  {label}
+                </Link>
+              ) : (
+                <a key={label} href={href} style={linkStyle} {...handlers}>
+                  {label}
                 </a>
-              )
-            )}
+              );
+            })}
           </div>
 
           {/* Contact */}

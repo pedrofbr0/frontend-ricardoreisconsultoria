@@ -156,6 +156,7 @@ export function PropertyDetailPage() {
 
 
   async function handleShare() {
+    if (!property) return
     const url = window.location.href
     const isTouchDevice = navigator.maxTouchPoints > 0
     if (isTouchDevice && navigator.share) {
