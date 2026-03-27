@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Menu, X } from "lucide-react";
+import logoImg from "../assets/logo-house-white-background.svg";
 
 const WA_LINK =
   "https://wa.me/5534996731968text=Ol%C3%A1%20Ricardo%2C%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es%20sobre%20im%C3%B3veis.";
@@ -114,37 +115,45 @@ export function Header() {
           style={{
             textDecoration: "none",
             display: "flex",
-            flexDirection: "column",
-            lineHeight: 1,
+            flexDirection: "row",
+            alignItems: "center",
+            gap: 10,
           }}
           onClick={() => {
             if (isHome) window.scrollTo({ top: 0, behavior: "smooth" });
           }}
         >
-          <span
-            style={{
-              fontFamily: "'Playfair Display', serif",
-              fontSize: 20,
-              fontWeight: 600,
-              color: "#FFFFFF",
-              letterSpacing: "0.04em",
-            }}
-          >
-            Ricardo Reis
-          </span>
-          <span
-            style={{
-              fontFamily: "'Inter', sans-serif",
-              fontSize: 9,
-              fontWeight: 400,
-              color: "#B8935A",
-              letterSpacing: "0.22em",
-              textTransform: "uppercase",
-              marginTop: 2,
-            }}
-          >
-            Consultoria Imobiliária
-          </span>
+          <img
+            src={logoImg}
+            alt="Logo Ricardo Reis Consultoria"
+            style={{ height: 40, width: "auto", flexShrink: 0 }}
+          />
+          <div style={{ display: "flex", flexDirection: "column", lineHeight: 1 }}>
+            <span
+              style={{
+                fontFamily: "'Playfair Display', serif",
+                fontSize: 20,
+                fontWeight: 600,
+                color: "#FFFFFF",
+                letterSpacing: "0.04em",
+              }}
+            >
+              Ricardo Reis
+            </span>
+            <span
+              style={{
+                fontFamily: "'Inter', sans-serif",
+                fontSize: 9,
+                fontWeight: 400,
+                color: "#B8935A",
+                letterSpacing: "0.22em",
+                textTransform: "uppercase",
+                marginTop: 2,
+              }}
+            >
+              Consultoria Imobiliária
+            </span>
+          </div>
         </Link>
 
         {/* Desktop Nav */}

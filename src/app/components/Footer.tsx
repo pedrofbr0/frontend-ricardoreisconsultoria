@@ -1,5 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { Mail, Instagram, Linkedin, Facebook } from "lucide-react";
+import logoImg from "../assets/logo-house-white-background.svg";
 
 const WhatsAppIcon = ({ size = 16 }: { size?: number }) => (
   <svg
@@ -86,34 +87,39 @@ export function Footer() {
         >
           {/* Brand */}
           <div>
-            <div style={{ marginBottom: 16 }}>
-              <span
-                style={{
-                  fontFamily: "'Playfair Display', serif",
-                  fontSize: 22,
-                  fontWeight: 600,
-                  color: "#FFFFFF",
-                  letterSpacing: "0.04em",
-                  display: "block",
-                  lineHeight: 1,
-                }}
-              >
-                Ricardo Reis
-              </span>
-              <span
-                style={{
-                  fontFamily: "'Inter', sans-serif",
-                  fontSize: 9,
-                  fontWeight: 400,
-                  color: "#B8935A",
-                  letterSpacing: "0.22em",
-                  textTransform: "uppercase",
-                  marginTop: 4,
-                  display: "block",
-                }}
-              >
-                Consultoria Imobiliária
-              </span>
+            <div style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 10, marginBottom: 16 }}>
+              <img
+                src={logoImg}
+                alt="Logo Ricardo Reis Consultoria"
+                style={{ height: 44, width: "auto", flexShrink: 0 }}
+              />
+              <div style={{ display: "flex", flexDirection: "column", lineHeight: 1 }}>
+                <span
+                  style={{
+                    fontFamily: "'Playfair Display', serif",
+                    fontSize: 22,
+                    fontWeight: 600,
+                    color: "#FFFFFF",
+                    letterSpacing: "0.04em",
+                  }}
+                >
+                  Ricardo Reis
+                </span>
+                <span
+                  style={{
+                    fontFamily: "'Inter', sans-serif",
+                    fontSize: 9,
+                    fontWeight: 400,
+                    color: "#B8935A",
+                    letterSpacing: "0.22em",
+                    textTransform: "uppercase",
+                    marginTop: 4,
+                    display: "block",
+                  }}
+                >
+                  Consultoria Imobiliária
+                </span>
+              </div>
             </div>
             <p
               style={{
