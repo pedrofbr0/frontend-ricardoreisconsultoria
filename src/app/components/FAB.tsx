@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 const WA_LINK =
-  "https://wa.me/5534999999999?text=Ol%C3%A1%20Ricardo%2C%20gostaria%20de%20atendimento%20exclusivo%20sobre%20im%C3%B3veis.";
+  "https://wa.me/5534996731968?text=Ol%C3%A1%20Ricardo%2C%20gostaria%20de%20atendimento%20exclusivo%20sobre%20im%C3%B3veis.";
 
 export function FAB() {
   const [visible, setVisible] = useState(false);

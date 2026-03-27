@@ -22,7 +22,7 @@ const stats = [
 const credentials = [
   {
     icon: Shield,
-    title: "CRECI-MG 47.218",
+    title: "CRECI-MG 24.283",
     desc: "Registro ativo e regularizado junto ao Conselho Regional.",
   },
   {
@@ -161,7 +161,7 @@ export function About() {
                     letterSpacing: "0.04em",
                   }}
                 >
-                  CRECI-MG 47.218
+                  CRECI-MG 24.283
                 </div>
               </div>
             </div>

@@ -36,43 +36,26 @@ function GalleryLightbox({
   onClose: () => void
 }) {
   const [index, setIndex] = useState(startIndex)
-
   const prev = () => setIndex((i) => (i === 0 ? images.length - 1 : i - 1))
   const next = () => setIndex((i) => (i === images.length - 1 ? 0 : i + 1))
 
   return (
-    <div
-      className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center"
-      onClick={onClose}
-    >
-      <button
-        onClick={(e) => { e.stopPropagation(); onClose() }}
-        className="absolute top-4 right-4 text-white/70 hover:text-white cursor-pointer z-10"
-      >
+    <div className="fixed inset-0 bg-black/90 z-[200] flex items-center justify-center" onClick={onClose}>
+      <button onClick={(e) => { e.stopPropagation(); onClose() }} className="absolute top-4 right-4 text-white/70 hover:text-white cursor-pointer z-10">
         <X size={28} />
       </button>
-
-      <button
-        onClick={(e) => { e.stopPropagation(); prev() }}
-        className="absolute left-4 text-white/70 hover:text-white cursor-pointer z-10"
-      >
+      <button onClick={(e) => { e.stopPropagation(); prev() }} className="absolute left-4 text-white/70 hover:text-white cursor-pointer z-10">
         <ChevronLeft size={36} />
       </button>
-
       <img
         src={images[index].url}
         alt={images[index].alt || ''}
         className="max-h-[85vh] max-w-[90vw] object-contain rounded-lg"
         onClick={(e) => e.stopPropagation()}
       />
-
-      <button
-        onClick={(e) => { e.stopPropagation(); next() }}
-        className="absolute right-4 text-white/70 hover:text-white cursor-pointer z-10"
-      >
+      <button onClick={(e) => { e.stopPropagation(); next() }} className="absolute right-4 text-white/70 hover:text-white cursor-pointer z-10">
         <ChevronRight size={36} />
       </button>
-
       <div className="absolute bottom-4 text-white/60 text-sm font-['Inter']">
         {index + 1} / {images.length}
       </div>
@@ -80,7 +63,7 @@ function GalleryLightbox({
   )
 }
 
-// ─── Spec row helper ─────────────────────────────────────
+// ─── Spec row ────────────────────────────────────────────
 function SpecRow({ icon: Icon, label, value }: { icon: any; label: string; value: string | number }) {
   return (
     <div className="flex items-center gap-3 py-3 border-b border-[#EDE8E0] last:border-0">
@@ -100,17 +83,10 @@ export function PropertyDetailPage() {
 
   const waNumber = settings?.whatsappNumber || '5534996896161'
 
+  // ─── Loading ──────────────────────────────────────────
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#F8F5F0]">
-        <header className="bg-[#162940] text-white">
-          <div className="max-w-[1200px] mx-auto px-6 py-5">
-            <Link to="/imoveis" className="flex items-center gap-2 text-white no-underline">
-              <ChevronLeft size={20} />
-              <span className="font-['Inter'] text-sm font-medium">Voltar</span>
-            </Link>
-          </div>
-        </header>
+      <div className="min-h-screen bg-[#F8F5F0] pt-[72px]">
         <div className="max-w-[1200px] mx-auto px-6 py-8">
           <div className="animate-pulse space-y-6">
             <div className="bg-gray-200 h-96 rounded-xl" />
@@ -122,17 +98,15 @@ export function PropertyDetailPage() {
     )
   }
 
+  // ─── Not found ────────────────────────────────────────
   if (!property) {
     return (
-      <div className="min-h-screen bg-[#F8F5F0] flex items-center justify-center">
+      <div className="min-h-screen bg-[#F8F5F0] pt-[72px] flex items-center justify-center">
         <div className="text-center">
           <h2 className="font-['Playfair_Display'] text-2xl font-semibold text-[#162940] mb-4">
             Imóvel não encontrado
           </h2>
-          <Link
-            to="/imoveis"
-            className="font-['Inter'] text-sm text-[#B8935A] font-semibold hover:underline"
-          >
+          <Link to="/imoveis" className="font-['Inter'] text-sm text-[#B8935A] font-semibold hover:underline">
             Ver todos os imóveis
           </Link>
         </div>
@@ -146,7 +120,7 @@ export function PropertyDetailPage() {
     property.whatsappMessage || `Olá, tenho interesse no imóvel "${property.title}" (Cod: ${property.code || 'N/A'}). Pode me dar mais informações?`,
   )
 
-  // Build all images for gallery
+  // All images
   const allImages: { url: string; alt?: string }[] = []
   if (property.mainImage) {
     allImages.push({
@@ -157,10 +131,7 @@ export function PropertyDetailPage() {
   if (property.gallery) {
     property.gallery.forEach((img) => {
       if (img.asset?.url) {
-        allImages.push({
-          url: img.asset.url,
-          alt: img.alt || '',
-        })
+        allImages.push({ url: img.asset.url, alt: img.alt || '' })
       }
     })
   }
@@ -173,7 +144,7 @@ export function PropertyDetailPage() {
     charGroups[group].push(c.title)
   })
 
-  // Location display
+  // Location
   const locationParts = []
   if (property.showExactAddress && property.address) locationParts.push(property.address)
   if (property.neighborhood) locationParts.push(property.neighborhood)
@@ -181,26 +152,28 @@ export function PropertyDetailPage() {
   const locationText = locationParts.join(', ')
 
   return (
-    <div className="min-h-screen bg-[#F8F5F0]">
-      {/* ─── Header ──────────────────────────────────── */}
-      <header className="bg-[#162940] text-white">
-        <div className="max-w-[1200px] mx-auto px-6 py-5 flex items-center justify-between">
-          <Link to="/imoveis" className="flex items-center gap-2 text-white no-underline group">
-            <ChevronLeft size={20} className="transition-transform group-hover:-translate-x-1" />
-            <span className="font-['Inter'] text-sm font-medium">Todos os imóveis</span>
+    <div className="min-h-screen bg-[#F8F5F0] pt-[72px]">
+      {/* ─── Breadcrumb ──────────────────────────────── */}
+      <div className="bg-[#162940]/5 border-b border-[#EDE8E0]">
+        <div className="max-w-[1200px] mx-auto px-6 py-3 flex items-center gap-2 text-sm font-['Inter']">
+          <Link to="/" className="text-[#5A6478] hover:text-[#162940] no-underline transition-colors">
+            Início
           </Link>
-          {property.code && (
-            <span className="font-['Inter'] text-xs text-white/50">Cod: {property.code}</span>
-          )}
+          <ChevronRight size={14} className="text-[#B8935A]" />
+          <Link to="/imoveis" className="text-[#5A6478] hover:text-[#162940] no-underline transition-colors">
+            Imóveis
+          </Link>
+          <ChevronRight size={14} className="text-[#B8935A]" />
+          <span className="text-[#162940] font-medium truncate max-w-[300px]">{property.title}</span>
         </div>
-      </header>
+      </div>
 
       {/* ─── Gallery ─────────────────────────────────── */}
       <div className="max-w-[1200px] mx-auto px-6 pt-8">
-        <div className="grid grid-cols-4 grid-rows-2 gap-2 h-[420px] rounded-xl overflow-hidden">
+        <div className="grid grid-cols-4 grid-rows-2 gap-2 h-[420px] rounded-xl overflow-hidden max-lg:grid-cols-1 max-lg:grid-rows-1 max-lg:h-[280px]">
           {/* Main image */}
           <div
-            className="col-span-2 row-span-2 relative cursor-pointer group"
+            className="col-span-2 row-span-2 max-lg:col-span-1 max-lg:row-span-1 relative cursor-pointer group"
             onClick={() => setLightboxIndex(0)}
           >
             {allImages[0] && (
@@ -218,13 +191,19 @@ export function PropertyDetailPage() {
                 {property.tag}
               </span>
             )}
+            {/* Mobile: gallery count */}
+            {allImages.length > 1 && (
+              <span className="absolute bottom-3 right-3 bg-black/60 text-white text-xs font-medium px-2.5 py-1 rounded lg:hidden">
+                {allImages.length} fotos
+              </span>
+            )}
           </div>
 
-          {/* Secondary images */}
+          {/* Secondary images (desktop only) */}
           {[1, 2, 3, 4].map((i) => (
             <div
               key={i}
-              className="relative cursor-pointer group overflow-hidden"
+              className="relative cursor-pointer group overflow-hidden max-lg:hidden"
               onClick={() => allImages[i] && setLightboxIndex(i)}
             >
               {allImages[i] ? (
@@ -238,7 +217,6 @@ export function PropertyDetailPage() {
                   <MapPin size={24} className="text-[#B8935A]/30" />
                 </div>
               )}
-              {/* "See all" overlay on last visible tile */}
               {i === 4 && allImages.length > 5 && (
                 <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
                   <span className="text-white font-['Inter'] text-sm font-semibold">
@@ -249,16 +227,6 @@ export function PropertyDetailPage() {
             </div>
           ))}
         </div>
-
-        {/* Mobile: single image with count */}
-        {allImages.length > 0 && (
-          <button
-            onClick={() => setLightboxIndex(0)}
-            className="mt-2 font-['Inter'] text-xs text-[#B8935A] font-medium hover:underline cursor-pointer lg:hidden"
-          >
-            Ver todas as {allImages.length} fotos
-          </button>
-        )}
       </div>
 
       {/* ─── Content ─────────────────────────────────── */}
@@ -279,6 +247,11 @@ export function PropertyDetailPage() {
                     {property.transactionType === 'sale' ? 'Venda' : property.transactionType === 'rent' ? 'Aluguel' : 'Venda e Aluguel'}
                   </span>
                 )}
+                {property.code && (
+                  <span className="font-['Inter'] text-xs text-[#5A6478]">
+                    Cod: {property.code}
+                  </span>
+                )}
               </div>
 
               <h1 className="font-['Playfair_Display'] text-[clamp(24px,3.5vw,36px)] font-semibold text-[#162940] leading-tight mb-3">
@@ -294,22 +267,15 @@ export function PropertyDetailPage() {
             {/* Description */}
             {property.shortDescription && (
               <div>
-                <h2 className="font-['Playfair_Display'] text-lg font-semibold text-[#162940] mb-3">
-                  Detalhes
-                </h2>
-                <p className="font-['Inter'] text-sm text-[#5A6478] leading-relaxed">
-                  {property.shortDescription}
-                </p>
+                <h2 className="font-['Playfair_Display'] text-lg font-semibold text-[#162940] mb-3">Detalhes</h2>
+                <p className="font-['Inter'] text-sm text-[#5A6478] leading-relaxed">{property.shortDescription}</p>
               </div>
             )}
 
-            {/* Full description (Portable Text — simplified render) */}
             {property.fullDescription && property.fullDescription.length > 0 && (
               <div>
                 {!property.shortDescription && (
-                  <h2 className="font-['Playfair_Display'] text-lg font-semibold text-[#162940] mb-3">
-                    Detalhes
-                  </h2>
+                  <h2 className="font-['Playfair_Display'] text-lg font-semibold text-[#162940] mb-3">Detalhes</h2>
                 )}
                 <div className="font-['Inter'] text-sm text-[#5A6478] leading-relaxed space-y-3">
                   {property.fullDescription.map((block: any, i: number) => {
@@ -326,19 +292,11 @@ export function PropertyDetailPage() {
 
             {/* Specifications */}
             <div>
-              <h2 className="font-['Playfair_Display'] text-lg font-semibold text-[#162940] mb-4">
-                Especificações
-              </h2>
+              <h2 className="font-['Playfair_Display'] text-lg font-semibold text-[#162940] mb-4">Especificações</h2>
               <div className="bg-white rounded-xl p-5 shadow-sm border border-[#EDE8E0]">
-                {property.totalArea && (
-                  <SpecRow icon={Maximize2} label="Área Total" value={formatArea(property.totalArea)} />
-                )}
-                {property.privateArea && (
-                  <SpecRow icon={Maximize2} label="Área Privativa" value={formatArea(property.privateArea)} />
-                )}
-                {property.landArea && (
-                  <SpecRow icon={Trees} label="Área do Terreno" value={formatArea(property.landArea, property.landAreaUnit)} />
-                )}
+                {property.totalArea && <SpecRow icon={Maximize2} label="Área Total" value={formatArea(property.totalArea)} />}
+                {property.privateArea && <SpecRow icon={Maximize2} label="Área Privativa" value={formatArea(property.privateArea)} />}
+                {property.landArea && <SpecRow icon={Trees} label="Área do Terreno" value={formatArea(property.landArea, property.landAreaUnit)} />}
                 {(property.bedrooms || property.suites) && (
                   <SpecRow
                     icon={Bed}
@@ -350,27 +308,17 @@ export function PropertyDetailPage() {
                     }
                   />
                 )}
-                {property.bathrooms && (
-                  <SpecRow icon={ShowerHead} label="Banheiros" value={property.bathrooms} />
-                )}
-                {property.parkingSpots && (
-                  <SpecRow icon={Car} label="Vagas de Garagem" value={property.parkingSpots} />
-                )}
-                {property.floors && (
-                  <SpecRow icon={Layers} label="Andares" value={property.floors} />
-                )}
-                {property.yearBuilt && (
-                  <SpecRow icon={Calendar} label="Ano de Construção" value={property.yearBuilt} />
-                )}
+                {property.bathrooms && <SpecRow icon={ShowerHead} label="Banheiros" value={property.bathrooms} />}
+                {property.parkingSpots && <SpecRow icon={Car} label="Vagas de Garagem" value={property.parkingSpots} />}
+                {property.floors && <SpecRow icon={Layers} label="Andares" value={property.floors} />}
+                {property.yearBuilt && <SpecRow icon={Calendar} label="Ano de Construção" value={property.yearBuilt} />}
               </div>
             </div>
 
             {/* Characteristics */}
             {Object.keys(charGroups).length > 0 && (
               <div>
-                <h2 className="font-['Playfair_Display'] text-lg font-semibold text-[#162940] mb-4">
-                  Características
-                </h2>
+                <h2 className="font-['Playfair_Display'] text-lg font-semibold text-[#162940] mb-4">Características</h2>
                 <div className="bg-white rounded-xl p-5 shadow-sm border border-[#EDE8E0] space-y-5">
                   {Object.entries(charGroups).map(([group, items]) => (
                     <div key={group}>
@@ -379,10 +327,7 @@ export function PropertyDetailPage() {
                       </h4>
                       <div className="flex flex-wrap gap-2">
                         {items.map((item) => (
-                          <span
-                            key={item}
-                            className="font-['Inter'] text-xs text-[#162940] bg-[#F8F5F0] border border-[#EDE8E0] px-3 py-1.5 rounded-full"
-                          >
+                          <span key={item} className="font-['Inter'] text-xs text-[#162940] bg-[#F8F5F0] border border-[#EDE8E0] px-3 py-1.5 rounded-full">
                             {item}
                           </span>
                         ))}
@@ -393,27 +338,19 @@ export function PropertyDetailPage() {
               </div>
             )}
 
-            {/* Location section with map */}
+            {/* Location */}
             <div>
-              <h2 className="font-['Playfair_Display'] text-lg font-semibold text-[#162940] mb-4">
-                Localização
-              </h2>
+              <h2 className="font-['Playfair_Display'] text-lg font-semibold text-[#162940] mb-4">Localização</h2>
               <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-[#EDE8E0]">
                 <div className="p-5">
                   <div className="flex items-center gap-2 mb-1">
                     <MapPin size={16} className="text-[#B8935A]" />
-                    <span className="font-['Inter'] text-sm font-semibold text-[#162940]">
-                      {locationText}
-                    </span>
+                    <span className="font-['Inter'] text-sm font-semibold text-[#162940]">{locationText}</span>
                   </div>
                   {property.region && (
-                    <span className="font-['Inter'] text-xs text-[#5A6478] ml-6">
-                      Região: {property.region}
-                    </span>
+                    <span className="font-['Inter'] text-xs text-[#5A6478] ml-6">Região: {property.region}</span>
                   )}
                 </div>
-
-                {/* Embedded map */}
                 {property.geopoint?.lat && property.geopoint?.lng && (
                   <iframe
                     title="Localização do imóvel"
@@ -426,16 +363,12 @@ export function PropertyDetailPage() {
             </div>
           </div>
 
-          {/* ─── Right: Sidebar (sticky) ─────────────── */}
+          {/* ─── Right: Sidebar ──────────────────────── */}
           <div className="lg:col-span-1">
-            <div className="sticky top-8 space-y-5">
+            <div className="sticky top-[88px] space-y-5">
               {/* Price card */}
               <div className="bg-white rounded-xl p-6 shadow-sm border border-[#EDE8E0]">
-                <div
-                  className={`font-['Inter'] text-2xl font-bold mb-1 ${
-                    price.muted ? 'text-[#B8935A]' : 'text-[#162940]'
-                  }`}
-                >
+                <div className={`font-['Inter'] text-2xl font-bold mb-1 ${price.muted ? 'text-[#B8935A]' : 'text-[#162940]'}`}>
                   {price.text}
                 </div>
 
@@ -443,12 +376,8 @@ export function PropertyDetailPage() {
                   <div className="flex gap-4 mt-3 pt-3 border-t border-[#EDE8E0]">
                     {property.condoFee ? (
                       <div>
-                        <span className="font-['Inter'] text-[10px] text-[#5A6478] uppercase tracking-wider block">
-                          Condomínio
-                        </span>
-                        <span className="font-['Inter'] text-sm font-semibold text-[#162940]">
-                          {formatPrice(property.condoFee)}
-                        </span>
+                        <span className="font-['Inter'] text-[10px] text-[#5A6478] uppercase tracking-wider block">Condomínio</span>
+                        <span className="font-['Inter'] text-sm font-semibold text-[#162940]">{formatPrice(property.condoFee)}</span>
                       </div>
                     ) : null}
                     {property.iptu ? (
@@ -456,15 +385,12 @@ export function PropertyDetailPage() {
                         <span className="font-['Inter'] text-[10px] text-[#5A6478] uppercase tracking-wider block">
                           IPTU {property.iptuPeriod === 'yearly' ? '(anual)' : ''}
                         </span>
-                        <span className="font-['Inter'] text-sm font-semibold text-[#162940]">
-                          {formatPrice(property.iptu)}
-                        </span>
+                        <span className="font-['Inter'] text-sm font-semibold text-[#162940]">{formatPrice(property.iptu)}</span>
                       </div>
                     ) : null}
                   </div>
                 )}
 
-                {/* WhatsApp CTA */}
                 <a
                   href={waLink}
                   target="_blank"
@@ -475,7 +401,6 @@ export function PropertyDetailPage() {
                   Tenho interesse
                 </a>
 
-                {/* Phone */}
                 {settings?.whatsappNumber && (
                   <a
                     href={`tel:+${settings.whatsappNumber}`}
@@ -491,30 +416,19 @@ export function PropertyDetailPage() {
                 <div className="bg-white rounded-xl p-5 shadow-sm border border-[#EDE8E0]">
                   <div className="flex items-center gap-3 mb-3">
                     {settings.brokerPhotoUrl ? (
-                      <img
-                        src={settings.brokerPhotoUrl}
-                        alt={settings.brokerName}
-                        className="w-12 h-12 rounded-full object-cover"
-                      />
+                      <img src={settings.brokerPhotoUrl} alt={settings.brokerName} className="w-12 h-12 rounded-full object-cover" />
                     ) : (
                       <div className="w-12 h-12 rounded-full bg-[#162940] flex items-center justify-center text-white font-['Inter'] font-bold text-lg">
                         {settings.brokerName?.[0]}
                       </div>
                     )}
                     <div>
-                      <div className="font-['Inter'] text-sm font-semibold text-[#162940]">
-                        {settings.brokerName}
-                      </div>
-                      <div className="font-['Inter'] text-xs text-[#5A6478]">
-                        Corretor - CRECI {settings.creci}
-                      </div>
+                      <div className="font-['Inter'] text-sm font-semibold text-[#162940]">{settings.brokerName}</div>
+                      <div className="font-['Inter'] text-xs text-[#5A6478]">Corretor - CRECI {settings.creci}</div>
                     </div>
                   </div>
                   {settings.email && (
-                    <a
-                      href={`mailto:${settings.email}`}
-                      className="font-['Inter'] text-xs text-[#B8935A] hover:underline block"
-                    >
+                    <a href={`mailto:${settings.email}`} className="font-['Inter'] text-xs text-[#B8935A] hover:underline block">
                       {settings.email}
                     </a>
                   )}
@@ -535,11 +449,7 @@ export function PropertyDetailPage() {
 
       {/* ─── Lightbox ────────────────────────────────── */}
       {lightboxIndex !== null && (
-        <GalleryLightbox
-          images={allImages}
-          startIndex={lightboxIndex}
-          onClose={() => setLightboxIndex(null)}
-        />
+        <GalleryLightbox images={allImages} startIndex={lightboxIndex} onClose={() => setLightboxIndex(null)} />
       )}
     </div>
   )

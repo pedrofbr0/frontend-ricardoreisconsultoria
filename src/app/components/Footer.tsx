@@ -154,7 +154,7 @@ export function Footer() {
             >
               Navegação
             </h4>
-            {["Portfólio", "Sobre", "Contato", "CRECI-MG 47.218"].map(
+            {["Portfólio", "Sobre", "Contato", "CRECI-MG 24.283"].map(
               (item) => (
                 <a
                   key={item}
@@ -200,7 +200,7 @@ export function Footer() {
 
             {/* WhatsApp */}
             <a
-              href="https://wa.me/5534999999999"
+              href="https://wa.me/553496731968"
               target="_blank"
               rel="noopener noreferrer"
               style={{
@@ -227,7 +227,7 @@ export function Footer() {
               }
             >
               <WhatsAppIcon size={14} />
-              (34) 9 9999-9999
+              (34) 9 9673-1968
             </a>
 
             {/* Email */}
@@ -276,7 +276,7 @@ export function Footer() {
               color: "rgba(255,255,255,0.3)",
             }}
           >
-            © 2025 Ricardo Reis Consultoria Imobiliária · CRECI-MG 47.218 ·
+            © 2025 Ricardo Reis Consultoria Imobiliária · CRECI-MG 24.283 ·
             Todos os direitos reservados.
           </span>
           <span

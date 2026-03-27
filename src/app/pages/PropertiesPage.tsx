@@ -1,7 +1,7 @@
 // pages/PropertiesPage.tsx
 import { useState, useMemo } from 'react'
 import { Link } from 'react-router-dom'
-import { Search, SlidersHorizontal, X, ChevronLeft, MapPin } from 'lucide-react'
+import { Search, SlidersHorizontal, X, ChevronRight, MapPin } from 'lucide-react'
 import { PropertyCard } from '../components/PropertyCard'
 import { useAllProperties, useCategories, usePropertyTypes, useSiteSettings } from '../lib/hooks'
 
@@ -39,7 +39,6 @@ export function PropertiesPage() {
   // ─── Apply filters ───────────────────────────────────
   const filtered = useMemo(() => {
     return properties.filter((p) => {
-      // Text search
       if (search) {
         const q = search.toLowerCase()
         const haystack = [p.title, p.city, p.neighborhood, p.locationLabel, p.code, p.typeName]
@@ -48,30 +47,17 @@ export function PropertiesPage() {
           .toLowerCase()
         if (!haystack.includes(q)) return false
       }
-
-      // Category
       if (selectedCategory && (p as any).categorySlug !== selectedCategory) return false
-
-      // Type
       if (selectedType && (p as any).typeRef !== selectedType) return false
-
-      // City
       if (selectedCity && p.city !== selectedCity) return false
-
-      // Transaction type
       if (selectedTransaction && p.transactionType !== selectedTransaction) return false
-
-      // Price range
       const price = p.salePrice || p.rentPrice || 0
       if (priceMin && price < Number(priceMin)) return false
       if (priceMax && price > Number(priceMax)) return false
-
-      // Bedrooms
       if (bedroomsMin) {
         const beds = (p.bedrooms || 0) + (p.suites || 0)
         if (beds < Number(bedroomsMin)) return false
       }
-
       return true
     })
   }, [properties, search, selectedCategory, selectedType, selectedCity, selectedTransaction, priceMin, priceMax, bedroomsMin])
@@ -90,7 +76,6 @@ export function PropertiesPage() {
     setBedroomsMin('')
   }
 
-  // ─── Common select style ─────────────────────────────
   const selectCls =
     "w-full bg-white border border-[#EDE8E0] rounded-lg px-3 py-2.5 text-sm text-[#162940] font-['Inter'] focus:outline-none focus:border-[#B8935A] focus:ring-1 focus:ring-[#B8935A]/30 appearance-none cursor-pointer"
 
@@ -98,20 +83,29 @@ export function PropertiesPage() {
     "w-full bg-white border border-[#EDE8E0] rounded-lg px-3 py-2.5 text-sm text-[#162940] font-['Inter'] focus:outline-none focus:border-[#B8935A] focus:ring-1 focus:ring-[#B8935A]/30"
 
   return (
-    <div className="min-h-screen bg-[#F8F5F0]">
-      {/* ─── Header ──────────────────────────────────── */}
-      <header className="bg-[#162940] text-white">
-        <div className="max-w-[1200px] mx-auto px-6 py-5 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2 text-white no-underline group">
-            <ChevronLeft size={20} className="transition-transform group-hover:-translate-x-1" />
-            <span className="font-['Inter'] text-sm font-medium">Voltar ao site</span>
+    <div className="min-h-screen bg-[#F8F5F0] pt-[72px]">
+      {/* ─── Breadcrumb ──────────────────────────────── */}
+      <div className="bg-[#162940]/5 border-b border-[#EDE8E0]">
+        <div className="max-w-[1200px] mx-auto px-6 py-3 flex items-center gap-2 text-sm font-['Inter']">
+          <Link to="/" className="text-[#5A6478] hover:text-[#162940] no-underline transition-colors">
+            Início
           </Link>
-          <h1 className="font-['Playfair_Display'] text-xl font-semibold">Imóveis</h1>
-          <div className="w-24" /> {/* spacer */}
+          <ChevronRight size={14} className="text-[#B8935A]" />
+          <span className="text-[#162940] font-medium">Imóveis</span>
         </div>
-      </header>
+      </div>
 
       <div className="max-w-[1200px] mx-auto px-6 py-8">
+        {/* ─── Page title ────────────────────────────── */}
+        <div className="mb-8">
+          <h1 className="font-['Playfair_Display'] text-[clamp(24px,3.5vw,36px)] font-semibold text-[#162940] leading-tight mb-2">
+            Todos os Imóveis
+          </h1>
+          <p className="font-['Inter'] text-sm text-[#5A6478]">
+            Encontre o imóvel ideal com nossos filtros de busca.
+          </p>
+        </div>
+
         {/* ─── Search bar + toggle ───────────────────── */}
         <div className="flex gap-3 mb-6">
           <div className="flex-1 relative">
@@ -144,7 +138,7 @@ export function PropertiesPage() {
 
         {/* ─── Filters panel ─────────────────────────── */}
         {showFilters && (
-          <div className="bg-white rounded-xl shadow-sm border border-[#EDE8E0] p-6 mb-6 animate-[fadeIn_0.2s_ease-out]">
+          <div className="bg-white rounded-xl shadow-sm border border-[#EDE8E0] p-6 mb-6">
             <div className="flex items-center justify-between mb-5">
               <h3 className="font-['Inter'] text-sm font-semibold text-[#162940]">Filtros</h3>
               {hasActiveFilters && (
@@ -159,72 +153,43 @@ export function PropertiesPage() {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              {/* Category */}
               <div>
-                <label className="block text-xs text-[#5A6478] font-['Inter'] font-medium mb-1.5">
-                  Categoria
-                </label>
+                <label className="block text-xs text-[#5A6478] font-['Inter'] font-medium mb-1.5">Categoria</label>
                 <select
                   value={selectedCategory}
-                  onChange={(e) => {
-                    setSelectedCategory(e.target.value)
-                    setSelectedType('')
-                  }}
+                  onChange={(e) => { setSelectedCategory(e.target.value); setSelectedType('') }}
                   className={selectCls}
                 >
                   <option value="">Todas</option>
                   {categories.map((c) => (
-                    <option key={c._id} value={c.slug.current}>
-                      {c.title}
-                    </option>
+                    <option key={c._id} value={c.slug.current}>{c.title}</option>
                   ))}
                 </select>
               </div>
 
-              {/* Type */}
               <div>
-                <label className="block text-xs text-[#5A6478] font-['Inter'] font-medium mb-1.5">
-                  Tipo
-                </label>
-                <select
-                  value={selectedType}
-                  onChange={(e) => setSelectedType(e.target.value)}
-                  className={selectCls}
-                >
+                <label className="block text-xs text-[#5A6478] font-['Inter'] font-medium mb-1.5">Tipo</label>
+                <select value={selectedType} onChange={(e) => setSelectedType(e.target.value)} className={selectCls}>
                   <option value="">Todos</option>
                   {filteredTypes.map((t) => (
-                    <option key={t._id} value={t._id}>
-                      {t.title}
-                    </option>
+                    <option key={t._id} value={t._id}>{t.title}</option>
                   ))}
                 </select>
               </div>
 
-              {/* City */}
               <div>
-                <label className="block text-xs text-[#5A6478] font-['Inter'] font-medium mb-1.5">
-                  Cidade
-                </label>
+                <label className="block text-xs text-[#5A6478] font-['Inter'] font-medium mb-1.5">Cidade</label>
                 <select value={selectedCity} onChange={(e) => setSelectedCity(e.target.value)} className={selectCls}>
                   <option value="">Todas</option>
                   {cities.map((c) => (
-                    <option key={c} value={c}>
-                      {c}
-                    </option>
+                    <option key={c} value={c}>{c}</option>
                   ))}
                 </select>
               </div>
 
-              {/* Transaction */}
               <div>
-                <label className="block text-xs text-[#5A6478] font-['Inter'] font-medium mb-1.5">
-                  Negócio
-                </label>
-                <select
-                  value={selectedTransaction}
-                  onChange={(e) => setSelectedTransaction(e.target.value)}
-                  className={selectCls}
-                >
+                <label className="block text-xs text-[#5A6478] font-['Inter'] font-medium mb-1.5">Negócio</label>
+                <select value={selectedTransaction} onChange={(e) => setSelectedTransaction(e.target.value)} className={selectCls}>
                   <option value="">Todos</option>
                   <option value="sale">Venda</option>
                   <option value="rent">Aluguel</option>
@@ -232,39 +197,18 @@ export function PropertiesPage() {
                 </select>
               </div>
 
-              {/* Price min */}
               <div>
-                <label className="block text-xs text-[#5A6478] font-['Inter'] font-medium mb-1.5">
-                  Preço mínimo (R$)
-                </label>
-                <input
-                  type="number"
-                  placeholder="Ex: 200000"
-                  value={priceMin}
-                  onChange={(e) => setPriceMin(e.target.value)}
-                  className={inputCls}
-                />
+                <label className="block text-xs text-[#5A6478] font-['Inter'] font-medium mb-1.5">Preço mínimo (R$)</label>
+                <input type="number" placeholder="Ex: 200000" value={priceMin} onChange={(e) => setPriceMin(e.target.value)} className={inputCls} />
               </div>
 
-              {/* Price max */}
               <div>
-                <label className="block text-xs text-[#5A6478] font-['Inter'] font-medium mb-1.5">
-                  Preço máximo (R$)
-                </label>
-                <input
-                  type="number"
-                  placeholder="Ex: 1000000"
-                  value={priceMax}
-                  onChange={(e) => setPriceMax(e.target.value)}
-                  className={inputCls}
-                />
+                <label className="block text-xs text-[#5A6478] font-['Inter'] font-medium mb-1.5">Preço máximo (R$)</label>
+                <input type="number" placeholder="Ex: 1000000" value={priceMax} onChange={(e) => setPriceMax(e.target.value)} className={inputCls} />
               </div>
 
-              {/* Bedrooms */}
               <div>
-                <label className="block text-xs text-[#5A6478] font-['Inter'] font-medium mb-1.5">
-                  Quartos (mínimo)
-                </label>
+                <label className="block text-xs text-[#5A6478] font-['Inter'] font-medium mb-1.5">Quartos (mínimo)</label>
                 <select value={bedroomsMin} onChange={(e) => setBedroomsMin(e.target.value)} className={selectCls}>
                   <option value="">Qualquer</option>
                   <option value="1">1+</option>
@@ -281,9 +225,7 @@ export function PropertiesPage() {
         {/* ─── Results count ─────────────────────────── */}
         <div className="flex items-center justify-between mb-6">
           <p className="font-['Inter'] text-sm text-[#5A6478]">
-            {loading ? (
-              'Carregando...'
-            ) : (
+            {loading ? 'Carregando...' : (
               <>
                 <span className="font-semibold text-[#162940]">{filtered.length}</span>{' '}
                 {filtered.length === 1 ? 'imóvel encontrado' : 'imóveis encontrados'}

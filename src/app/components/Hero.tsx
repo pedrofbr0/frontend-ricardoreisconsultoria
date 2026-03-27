@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 const WA_LINK =
-  "https://wa.me/5534999999999?text=Ol%C3%A1%20Ricardo%2C%20tenho%20interesse%20em%20atendimento%20exclusivo.%20Pode%20me%20ajudar%3F";
+  "https://wa.me/5534996731968?text=Ol%C3%A1%20Ricardo%2C%20tenho%20interesse%20em%20atendimento%20exclusivo.%20Pode%20me%20ajudar%3F";
 
 const URBAN_IMG =
   "https://images.unsplash.com/photo-1758448756350-3d0eec02ba37?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBwZW50aG91c2UlMjBpbnRlcmlvciUyMG1vZGVybiUyMGxpdmluZyUyMHJvb218ZW58MXx8fHwxNzc0NDU4MjAzfDA&ixlib=rb-4.1.0&q=80&w=1080";
