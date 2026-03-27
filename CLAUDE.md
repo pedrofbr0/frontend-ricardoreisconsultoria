@@ -13,7 +13,7 @@ There are no lint or test scripts configured.
 
 ## Architecture
 
-This is a **React 18 + Vite + Tailwind CSS v4** single-page landing site for Ricardo Reis Consultoria, a luxury real estate consultant based in Uberlândia, Brazil (CRECI-MG 47.218).
+This is a **React 18 + Vite + Tailwind CSS v4** single-page landing site for Ricardo Reis Consultoria, a luxury real estate consultant based in Uberlândia, Brazil (CRECI-MG 24.283).
 
 ### Entry flow
 
