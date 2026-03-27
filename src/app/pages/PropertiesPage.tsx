@@ -10,7 +10,7 @@ export function PropertiesPage() {
   const categories = useCategories()
   const types = usePropertyTypes()
   const settings = useSiteSettings()
-  const waNumber = settings?.whatsappNumber || '5534996896161'
+  const waNumber = settings?.whatsappNumber || '5534996731968'
 
   // ─── Filter state ────────────────────────────────────
   const [search, setSearch] = useState('')

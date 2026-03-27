@@ -12,7 +12,7 @@ const WhatsAppIcon = ({ size = 16 }: { size?: number }) => (
 export function Portfolio() {
   const { properties, loading } = usePortfolioProperties()
   const settings = useSiteSettings()
-  const waNumber = settings?.whatsappNumber || '5534996896161'
+  const waNumber = settings?.whatsappNumber || '5534996731968'
 
   return (
     <section id="portfolio" className="bg-[#F8F5F0] py-24 px-6">

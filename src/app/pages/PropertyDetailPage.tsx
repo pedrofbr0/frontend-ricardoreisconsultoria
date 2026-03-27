@@ -14,6 +14,7 @@ import {
   Calendar,
   Layers,
   X,
+  Share,
 } from 'lucide-react'
 import { usePropertyDetail, useSiteSettings } from '../lib/hooks'
 import { urlFor } from '../lib/sanity'
@@ -81,7 +82,7 @@ export function PropertyDetailPage() {
   const settings = useSiteSettings()
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
 
-  const waNumber = settings?.whatsappNumber || '5534996896161'
+  const waNumber = settings?.whatsappNumber || '5534996731968'
 
   // ─── Loading ──────────────────────────────────────────
   if (loading) {

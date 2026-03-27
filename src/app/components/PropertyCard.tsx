@@ -26,7 +26,7 @@ interface Props {
   whatsappNumber?: string
 }
 
-export function PropertyCard({ property, whatsappNumber = '5534996896161' }: Props) {
+export function PropertyCard({ property, whatsappNumber = '5534996731968' }: Props) {
   const price = getDisplayPrice(property)
   const tagBg = property.categoryColor || '#162940'
 
